@@ -6,8 +6,10 @@ CONFIG -= qt
 INCLUDEPATH += header
 
 HEADERS += \
-        header/SuffixArray.hpp
+        header/SuffixArray.hpp \
+        header/NaiveSort.hpp
 
 SOURCES += \
         main.cpp \
-        source/SuffixArray.cpp
+        source/SuffixArray.cpp \
+        source/NaiveSort.cpp
