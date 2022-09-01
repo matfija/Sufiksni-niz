@@ -53,7 +53,7 @@ private:
                               "QYIKWPWYIWLGFIAGLIAIVMVTIMLCCMTSCCSCLKGCCSCGSCCKFDEDDSEPVLKGVKLHYT";
 
     // Funkcija za proveru poznatih rezultata
-    void poznato(SuffixArray *, std::vector<size_t>);
+    void poznato(SuffixArray &, std::vector<size_t>);
 
     // Funkcija za poređenje rezultata svih algoritama
     void uporedi(const char *const);
@@ -67,36 +67,21 @@ private Q_SLOTS:
 };
 
 // Funkcija za proveru poznatih rezultata
-void SuffixTest::poznato(SuffixArray *sa,
+void SuffixTest::poznato(SuffixArray &sa,
                          std::vector<size_t> ispravno) {
-    // Dobijeni sufiksni niz kao vektor
-    std::vector<size_t> sufiks(sa->getN());
-    std::copy_n(sa->getNiz(), sa->getN(), std::begin(sufiks));
-
-    // Jednostavno poređenje dva vektora
-    QCOMPARE(sufiks, ispravno);
+    QCOMPARE(sa.getV(), ispravno);
 }
 
 // Funkcija za poređenje rezultata svih algoritama
 void SuffixTest::uporedi(const char *const niska) {
     // Naivno sortiranje niske
     NaiveSort ns(niska);
-    ns.napraviSufiksniNiz();
-
-    // Dobijeni sufiksni niz kao vektor
-    std::vector<size_t> sns(ns.getN());
-    std::copy_n(ns.getNiz(), ns.getN(), std::begin(sns));
 
     // Dupliranje prefiksa niske
     PrefixDoubling pd(niska);
-    pd.napraviSufiksniNiz();
-
-    // Dobijeni sufiksni niz kao vektor
-    std::vector<size_t> spd(pd.getN());
-    std::copy_n(pd.getNiz(), pd.getN(), std::begin(spd));
 
     // Jednostavno poređenje dva vektora
-    QCOMPARE(spd, sns);
+    QCOMPARE(pd.getV(), ns.getV());
 }
 
 // Testiranje naivnog sortiranja
@@ -104,19 +89,17 @@ void SuffixTest::naive() {
     {
         // Naivno sortiranje banane
         NaiveSort ns(banana);
-        ns.napraviSufiksniNiz();
 
         // Provera poznatih rezultata
-        poznato(&ns, {5, 3, 1, 0, 4, 2});
+        poznato(ns, {5, 3, 1, 0, 4, 2});
     }
 
     {
         // Naivno sortiranje Misisipija
         NaiveSort ns(mississippi);
-        ns.napraviSufiksniNiz();
 
         // Provera poznatih rezultata
-        poznato(&ns, {10, 7, 4, 1, 0, 9, 8, 6, 3, 5, 2});
+        poznato(ns, {10, 7, 4, 1, 0, 9, 8, 6, 3, 5, 2});
     }
 }
 
@@ -125,19 +108,17 @@ void SuffixTest::doubling() {
     {
         // Dupliranje prefiksa banane
         PrefixDoubling pd(banana);
-        pd.napraviSufiksniNiz();
 
         // Provera poznatih rezultata
-        poznato(&pd, {5, 3, 1, 0, 4, 2});
+        poznato(pd, {5, 3, 1, 0, 4, 2});
     }
 
     {
         // Dupliranje prefiksa Misisipija
         PrefixDoubling pd(mississippi);
-        pd.napraviSufiksniNiz();
 
         // Provera poznatih rezultata
-        poznato(&pd, {10, 7, 4, 1, 0, 9, 8, 6, 3, 5, 2});
+        poznato(pd, {10, 7, 4, 1, 0, 9, 8, 6, 3, 5, 2});
     }
 }
 

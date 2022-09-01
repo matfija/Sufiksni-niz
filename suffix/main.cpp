@@ -11,12 +11,10 @@ int main() {
 
     // Naivno sortiranje banane
     NaiveSort ns(banana);
-    ns.napraviSufiksniNiz();
     std::cout << ns << std::endl;
 
     // Dupliranje prefiksa banane
     PrefixDoubling pd(banana);
-    pd.napraviSufiksniNiz();
     std::cout << pd << std::endl;
 
     // Uspešan prekid rada programa

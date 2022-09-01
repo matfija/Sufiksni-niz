@@ -8,6 +8,11 @@
 SuffixArray::SuffixArray(const char * const s)
     : n(strlen(s)), niska(s), niz(new size_t[n]) { }
 
+// Virtuelni destruktor oslobađa memoriju
+SuffixArray::~SuffixArray() {
+    delete[] niz;
+}
+
 // Funkcija za dohvatanje dužine
 size_t SuffixArray::getN() const {
     return n;
@@ -21,6 +26,11 @@ const char *SuffixArray::getNiska() const {
 // Funkcija za dohvatanje niza
 const size_t *SuffixArray::getNiz() const {
     return niz;
+}
+
+// Funkcija za dohvatanje vektora
+const std::vector<size_t> SuffixArray::getV() const {
+    return std::vector<size_t>(niz, niz+n);
 }
 
 // Funkcija za dohvatanje karaktera

@@ -9,7 +9,7 @@
 
 // Pamćenje prosleđene niske
 PrefixDoubling::PrefixDoubling(const char *const s)
-    : SuffixArray(s) { }
+    : SuffixArray(s) { napraviSufiksniNiz(); }
 
 // Pravljenje sufiksnog niza dupliranjem prefiksa
 void PrefixDoubling::napraviSufiksniNiz() {
@@ -25,15 +25,14 @@ void PrefixDoubling::napraviSufiksniNiz() {
     });
 
     // Klase ekvivalencije (rangovi) sufiksa
-    std::vector<size_t> rangovi(n);
-
-    // Za početak se karakteri mogu shvatiti kao rangovi
-    std::copy_n(niska, n, std::begin(rangovi));
+    const auto rangovi = new size_t[n];
+    std::copy_n(niska, n, rangovi);
 
     // Prolazak kroz sve duplikacije prefiksa
     for (size_t k = 1; k < n; k *= 2) {
         // Klase sufiksa duzine do 2k
-        std::vector<size_t> klase = rangovi;
+        const auto klase = new size_t[n];
+        std::copy_n(rangovi, n, klase);
 
         // Određivanje novih klasa na osnovu prethodnih
         for (size_t i = 0; i < n; i++) {
@@ -42,23 +41,31 @@ void PrefixDoubling::napraviSufiksniNiz() {
         }
 
         // Inicijalizacija brojača za drugi deo sortiranja
-        std::vector<size_t> broj(n);
-        std::iota(std::begin(broj), std::end(broj), size_t());
+        const auto broj = new size_t[n];
+        std::iota(broj, broj+n, size_t());
 
         // Kopiranje tekućeg stanja niza za drugi deo sortiranja
-        std::vector<size_t> kopija(n);
-        std::copy_n(niz, n, std::begin(kopija));
+        const auto kopija = new size_t[n];
+        std::copy_n(niz, n, kopija);
 
         // Pronalaženje neuređenih sufiksa veće dužine
         for (size_t i = 0; i < n; i++) {
             if (kopija[i] >= k) {
-                const auto s2 = static_cast<size_t>(
+                const auto suff = static_cast<size_t>(
                     static_cast<int>(kopija[i]) - static_cast<int>(k)
                 );
 
                 // Soritanje otkrivenih sufiksa
-                niz[broj[rangovi[s2]]++] = s2;
+                niz[broj[rangovi[suff]]++] = suff;
            }
-       }
+        }
+
+        // Oslobađanje memorije
+        delete[] klase;
+        delete[] broj;
+        delete[] kopija;
     }
+
+    // Oslobađanje memorije
+    delete[] rangovi;
 }

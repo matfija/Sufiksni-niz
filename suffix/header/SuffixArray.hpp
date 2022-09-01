@@ -4,6 +4,9 @@
 // Biblioteka za rad sa C niskama
 #include <cstring>
 
+// Biblioteka za rad sa vektorima
+#include <vector>
+
 // Biblioteka za formatirani ulaz i izlaz
 #include <iostream>
 
@@ -13,8 +16,8 @@ protected:
     // Konstruktor niza na osnovu niske
     SuffixArray(const char *const);
 
-    // Podrazumevani virtuelni destruktor
-    virtual ~SuffixArray() = default;
+    // Virtuelni destruktor oslobađa memoriju
+    virtual ~SuffixArray();
 
     // Izbrisani konstruktori kopije
     SuffixArray(const SuffixArray &) = delete;
@@ -45,6 +48,9 @@ public:
 
     // Funkcija za dohvatanje niza
     const size_t *getNiz() const;
+
+    // Funkcija za dohvatanje vektora
+    const std::vector<size_t> getV() const;
 
     // Funkcija za dohvatanje karaktera
     char getNiska(size_t) const;

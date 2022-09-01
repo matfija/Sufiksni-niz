@@ -1,10 +1,6 @@
-TEMPLATE = app
-
-CONFIG += console c++2a
-CONFIG -= app_bundle
-CONFIG -= qt
-
 QT += testlib
+
+CONFIG += c++2a
 
 INCLUDEPATH += ../suffix/header
 

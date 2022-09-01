@@ -9,7 +9,7 @@
 
 // Pamćenje prosleđene niske
 NaiveSort::NaiveSort(const char *const s)
-    : SuffixArray(s) { }
+    : SuffixArray(s) { napraviSufiksniNiz(); }
 
 // Pravljenje sufiksnog niza naivnim sortiranjem
 void NaiveSort::napraviSufiksniNiz() {
