@@ -1,19 +1,23 @@
 // Biblioteka za naivno sortiranje
 #include "NaiveSort.hpp"
 
+// Biblioteka za dupliranje prefiksa
+#include "PrefixDoubling.hpp"
+
 // Glavna funkcija programa
 int main() {
     // Banana kao jednostavan primer
     const char *const banana = "banana";
 
-    // Instanciranje naivnog sortiranja
+    // Naivno sortiranje banane
     NaiveSort ns(banana);
-
-    // Sufiksni niz naivnim sortiranjem
     ns.napraviSufiksniNiz();
-
-    // Ispis rezultata naivnog sortiranja
     std::cout << ns << std::endl;
+
+    // Dupliranje prefiksa banane
+    PrefixDoubling pd(banana);
+    pd.napraviSufiksniNiz();
+    std::cout << pd << std::endl;
 
     // Uspešan prekid rada programa
     exit(EXIT_SUCCESS);

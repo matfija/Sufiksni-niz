@@ -9,27 +9,27 @@ SuffixArray::SuffixArray(const char * const s)
     : n(strlen(s)), niska(s), niz(new size_t[n]) { }
 
 // Funkcija za dohvatanje dužine
-constexpr size_t SuffixArray::getN() const {
+size_t SuffixArray::getN() const {
     return n;
 }
 
 // Funkcija za dohvatanje niske
-constexpr const char *SuffixArray::getNiska() const {
+const char *SuffixArray::getNiska() const {
     return niska;
 }
 
 // Funkcija za dohvatanje niza
-constexpr const size_t *SuffixArray::getNiz() const {
+const size_t *SuffixArray::getNiz() const {
     return niz;
 }
 
 // Funkcija za dohvatanje karaktera
-constexpr char SuffixArray::getNiska(size_t i) const {
+char SuffixArray::getNiska(size_t i) const {
     return niska[i];
 }
 
 // Funkcija za dohvatanje indeksa
-constexpr size_t SuffixArray::getNiz(size_t i) const {
+size_t SuffixArray::getNiz(size_t i) const {
     return niz[i];
 }
 

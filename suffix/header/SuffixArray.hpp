@@ -38,19 +38,19 @@ protected:
 
 public:
     // Funkcija za dohvatanje dužine
-    constexpr size_t getN() const;
+    size_t getN() const;
 
     // Funkcija za dohvatanje niske
-    constexpr const char *getNiska() const;
+    const char *getNiska() const;
 
     // Funkcija za dohvatanje niza
-    constexpr const size_t *getNiz() const;
+    const size_t *getNiz() const;
 
     // Funkcija za dohvatanje karaktera
-    constexpr char getNiska(size_t) const;
+    char getNiska(size_t) const;
 
     // Funkcija za dohvatanje indeksa
-    constexpr size_t getNiz(size_t) const;
+    size_t getNiz(size_t) const;
 };
 
 // Funkcija za ispis niske i niza
