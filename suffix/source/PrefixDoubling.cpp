@@ -42,8 +42,8 @@ void PrefixDoubling::napraviSufiksniNiz() {
         }
 
         // Inicijalizacija brojača za drugi deo sortiranja
-        std::vector<size_t> brojač(n);
-        std::iota(std::begin(brojač), std::end(brojač), size_t());
+        std::vector<size_t> broj(n);
+        std::iota(std::begin(broj), std::end(broj), size_t());
 
         // Kopiranje tekućeg stanja niza za drugi deo sortiranja
         std::vector<size_t> kopija(n);
@@ -57,7 +57,7 @@ void PrefixDoubling::napraviSufiksniNiz() {
                 );
 
                 // Soritanje otkrivenih sufiksa
-                niz[brojač[rangovi[s2]]++] = s2;
+                niz[broj[rangovi[s2]]++] = s2;
            }
        }
     }
