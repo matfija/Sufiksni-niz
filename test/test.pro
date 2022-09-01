@@ -1,9 +1,9 @@
 TEMPLATE = app
+
 CONFIG += console c++2a
 CONFIG -= app_bundle
+CONFIG -= qt
 
-QMAKE_CXXFLAGS += -g -Wall --coverage -O0
-LIBS += -lgcov
 QT += testlib
 
 INCLUDEPATH += ../suffix/header
