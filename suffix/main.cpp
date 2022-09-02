@@ -10,11 +10,11 @@
 // Biblioteka za algoritam SA-IS
 #include "SAIS09.hpp"
 
+// Banana kao jednostavan primer
+static const char *const banana = "banana";
+
 // Glavna funkcija programa
 int main() {
-    // Banana kao jednostavan primer
-    const char *const banana = "banana";
-
     // Naivno sortiranje banane
     NaiveSort ns(banana);
     std::cout << ns << std::endl;

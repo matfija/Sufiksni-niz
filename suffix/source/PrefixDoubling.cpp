@@ -55,7 +55,7 @@ void PrefixDoubling::napraviSufiksniNiz() {
                     static_cast<int>(kopija[i]) - static_cast<int>(k)
                 );
 
-                // Soritanje otkrivenih sufiksa
+                // Razvrstavanje otkrivenih sufiksa
                 niz[broj[rangovi[suff]]++] = suff;
            }
         }

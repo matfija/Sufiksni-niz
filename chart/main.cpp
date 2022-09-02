@@ -10,6 +10,9 @@
 // Biblioteka za Qt liniju
 #include <QtCharts/QLineSeries>
 
+// Biblioteka za matematiku
+#include <cmath>
+
 // Biblioteka za naivno sortiranje
 #include "NaiveSort.hpp"
 
@@ -35,8 +38,8 @@ static QLineSeries *tabeliraj(const char *const niska,
     // Određivanje dužine niske
     const auto n = strlen(niska);
 
-    // Prolazak kroz i = [0, 1, 2, ..., 2^j, ..., n]
-    for (size_t i = 0, j = 0; i <= n; j++, i = i ? 2*i : 1) {
+    // Prolazak kroz i = [1, 2, ..., 2^j, ..., n]
+    for (size_t i = 1; i <= n; i *= 2) {
         // Merenje vremena na početku rada algoritma
         const auto start = std::chrono::high_resolution_clock::now();
 
@@ -47,8 +50,7 @@ static QLineSeries *tabeliraj(const char *const niska,
         const auto end = std::chrono::high_resolution_clock::now();
 
         // Dodavanje rezultata na vremensku seriju
-        series->append(j, std::chrono::duration_cast
-                         <std::chrono::milliseconds>(end - start).count());
+        series->append(std::log2(i), std::log2((end - start).count()));
     }
 
     // Postavljanje imena serije
@@ -74,6 +76,12 @@ int main(int argc, char *argv[]) {
 
     // Dodavanje dupliranja prefiksa
     grafikon->addSeries(tabeliraj<PrefixDoubling>(niska, "PrefixDoubling"));
+
+    // Dodavanje Kerkejnen-Sandersa
+    grafikon->addSeries(tabeliraj<KaSa03>(niska, "KaSa03"));
+
+    // Oslobađanje memorije
+    delete[] niska;
 
     // Postavljanje podrazumevanih osa
     grafikon->createDefaultAxes();
