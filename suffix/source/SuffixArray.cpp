@@ -4,6 +4,9 @@
 // Biblioteka za rad sa iteratorima
 #include <iterator>
 
+// Biblioteka za pseudoslučajnost
+#include <random>
+
 // Pamćenje prosleđene niske
 SuffixArray::SuffixArray(const char * const s)
     : n(strlen(s)), niska(s), niz(new size_t[n]) { }
@@ -65,4 +68,21 @@ std::ostream& operator<<(std::ostream& out, const SuffixArray& sa) {
 
     // Ispis poslednjeg elementa i zatvaranje zagrade
     return out << niz[n-1] << ']';
+}
+
+// Funkcija za generisanje pseudoslučajne niske
+const char *randnis(size_t n, char min, char max) {
+    // Marsenov generator pseudoslučajnih brojeva
+    std::mt19937 rng(0);
+
+    // Inicijalno prazna niska (niz karaktera)
+    const auto niska = new char[n+1];
+
+    // Generisanje velikog broja karaktera
+    for (size_t i = 0; i < n; i++) {
+        niska[i] = std::uniform_int_distribution<char>(min, max)(rng);
+    }
+
+    // Vraćanje generisane niske
+    return niska;
 }

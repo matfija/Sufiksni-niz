@@ -7,6 +7,12 @@
 // Biblioteka za dupliranje prefiksa
 #include "PrefixDoubling.hpp"
 
+// Biblioteka za Kerkejnen-Sandersa
+#include "KaSa03.hpp"
+
+// Biblioteka za algoritam SA-IS
+#include "SAIS09.hpp"
+
 // Klasa za testiranje algoritama
 class SuffixTest : public QObject {
     Q_OBJECT
@@ -62,8 +68,9 @@ private:
 private Q_SLOTS:
     void naive();
     void doubling();
+    void kasa03();
+    void sais09();
     void poredi();
-    void random();
 };
 
 // Funkcija za proveru poznatih rezultata
@@ -122,6 +129,12 @@ void SuffixTest::doubling() {
     }
 }
 
+// Testiranje Kerkejnen-Sandersa
+void SuffixTest::kasa03() { }
+
+// Testiranje algoritma SA-IS
+void SuffixTest::sais09() { }
+
 // Testiranje poređenjem svih algoritama
 void SuffixTest::poredi() {
     // Poređenje na primeru banane
@@ -135,29 +148,12 @@ void SuffixTest::poredi() {
 
     // Poređenje na primeru proteinske sekvence
     uporedi(spike);
-}
-
-// Testiranje na primeru slučajne niske
-void SuffixTest::random() {
-    // Marsenov generator pseudoslučajnih brojeva
-    std::mt19937 rng(0);
-
-    // Inicijalno prazna niska (niz karaktera)
-    std::vector<char> niska;
-
-    // Generisanje velikog broja karaktera
-    for (int i = 0; i < 100'000; i++) {
-        niska.push_back(std::uniform_int_distribution<char>('a', 'z')(rng));
-    }
-
-    // Zatvaranje niske nultim karakterom
-    niska.push_back('\0');
 
     // Poređenje na primeru slučajne niske
-    uporedi(niska.data());
+    uporedi(randnis(100'000, 'a', 'z'));
 }
 
-// Automatski main sa jednom klasom
+// Automatsko generisanje glavne funkcije
 QTEST_APPLESS_MAIN(SuffixTest)
 
 // Moc sa svim potrebnim informacijama

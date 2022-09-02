@@ -62,4 +62,7 @@ public:
 // Funkcija za ispis niske i niza
 std::ostream& operator<<(std::ostream&, const SuffixArray&);
 
+// Funkcija za generisanje pseudoslučajne niske
+const char *randnis(size_t, char, char);
+
 #endif // SUFFIXARRAY_H
