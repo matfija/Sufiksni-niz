@@ -183,11 +183,11 @@ void KaSa03::napraviSufiksniNiz() {
     }
 
     // Svođenje niske na niz brojeva
-    const auto T = new size_t[n+3];
+    const auto T = new size_t[n + 3];
     std::copy_n(niska, n, T);
 
     // Popunjavanje dodatna tri prazna mesta
-    T[n] = T[n+1] = T[n+2] = '\0';
+    T[n] = T[n + 1] = T[n + 2] = '\0';
 
     // Rekurzivno određivanje sufiksnog niza; razvrstavanje
     // karaktera na 128 mesta odgovara ASCII enkodiranju

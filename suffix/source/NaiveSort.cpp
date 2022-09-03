@@ -14,10 +14,10 @@ NaiveSort::NaiveSort(const char *const s)
 // Pravljenje sufiksnog niza naivnim sortiranjem
 void NaiveSort::napraviSufiksniNiz() {
     // Popunjavanje sufiksnog niza indeksima
-    std::iota(niz, niz+n, size_t());
+    std::iota(niz, niz + n, size_t());
 
     // Sortiranje indeksa prema sufiksima
-    std::sort(niz, niz+n, [this](size_t i, size_t j) {
-        return strcmp(niska+i, niska+j) < 0;
+    std::sort(niz, niz + n, [this](size_t i, size_t j) {
+        return strcmp(niska + i, niska + j) < 0;
     });
 }

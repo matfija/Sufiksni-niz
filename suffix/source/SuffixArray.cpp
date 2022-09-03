@@ -33,7 +33,7 @@ const size_t *SuffixArray::getNiz() const {
 
 // Funkcija za dohvatanje vektora
 const std::vector<size_t> SuffixArray::getV() const {
-    return std::vector<size_t>(niz, niz+n);
+    return std::vector<size_t>(niz, niz + n);
 }
 
 // Funkcija za dohvatanje karaktera
@@ -64,10 +64,10 @@ std::ostream& operator<<(std::ostream& out, const SuffixArray& sa) {
     out << '[';
 
     // Ispis elemenatana niza razdvojenih razmakom
-    std::copy(niz, niz+n-1, std::ostream_iterator<size_t>(out, " "));
+    std::copy(niz, niz + n - 1, std::ostream_iterator<size_t>(out, " "));
 
     // Ispis poslednjeg elementa i zatvaranje zagrade
-    return out << niz[n-1] << ']';
+    return out << niz[n - 1] << ']';
 }
 
 // Funkcija za generisanje pseudoslučajne niske
@@ -76,7 +76,7 @@ const char *randnis(size_t n, char min, char max) {
     std::mt19937 rng(0);
 
     // Inicijalno prazna niska (niz karaktera)
-    const auto niska = new char[n+1];
+    const auto niska = new char[n + 1];
 
     // Generisanje velikog broja karaktera
     for (size_t i = 0; i < n; i++) {

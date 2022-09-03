@@ -44,7 +44,7 @@ static QLineSeries *tabeliraj(const char *const niska,
         const auto start = std::chrono::high_resolution_clock::now();
 
         // Konstrukcija sufiksnog niza nad i karaktera
-        SuffArr sa(niska+n-i);
+        SuffArr sa(niska + n - i);
 
         // Merenje vremena na kraju rada algoritma
         const auto end = std::chrono::high_resolution_clock::now();

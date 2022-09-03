@@ -14,13 +14,13 @@ PrefixDoubling::PrefixDoubling(const char *const s)
 // Pravljenje sufiksnog niza dupliranjem prefiksa
 void PrefixDoubling::napraviSufiksniNiz() {
     // Popunjavanje sufiksnog niza indeksima
-    std::iota(niz, niz+n, size_t());
+    std::iota(niz, niz + n, size_t());
 
     // Obrtanje niza zarad kasnije stabilnost
-    std::reverse(niz, niz+n);
+    std::reverse(niz, niz + n);
 
     // Stabilno sortiranje indeksa po prvom karakteru
-    std::stable_sort(niz, niz+n, [this](size_t i, size_t j) {
+    std::stable_sort(niz, niz + n, [this](size_t i, size_t j) {
         return niska[i] < niska[j];
     });
 
@@ -36,13 +36,13 @@ void PrefixDoubling::napraviSufiksniNiz() {
 
         // Određivanje novih klasa na osnovu prethodnih
         for (size_t i = 0; i < n; i++) {
-            rangovi[niz[i]] = i > 0 && klase[niz[i-1]] == klase[niz[i]] && niz[i - 1] + k < n &&
-                              klase[niz[i-1] + k/2] == klase[niz[i] + k/2] ? rangovi[niz[i-1]] : i;
+            rangovi[niz[i]] = i > 0 && klase[niz[i - 1]] == klase[niz[i]] && niz[i - 1] + k < n &&
+                              klase[niz[i - 1] + k/2] == klase[niz[i] + k/2] ? rangovi[niz[i - 1]] : i;
         }
 
         // Inicijalizacija brojača za drugi deo sortiranja
         const auto broj = new size_t[n];
-        std::iota(broj, broj+n, size_t());
+        std::iota(broj, broj + n, size_t());
 
         // Kopiranje tekućeg stanja niza za drugi deo sortiranja
         const auto kopija = new size_t[n];
