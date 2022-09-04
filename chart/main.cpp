@@ -78,7 +78,10 @@ int main(int argc, char *argv[]) {
     grafikon->addSeries(tabeliraj<PrefixDoubling>(niska, "PrefixDoubling"));
 
     // Dodavanje Kerkejnen-Sandersa
-    grafikon->addSeries(tabeliraj<KaSa03>(niska, "KaSa03"));
+    grafikon->addSeries(tabeliraj<KaSa03>(niska, "Ka-Sa-03"));
+
+    // Dodavanje algoritma SA-IS
+    grafikon->addSeries(tabeliraj<SAIS09>(niska, "SA-IS-09"));
 
     // Oslobađanje memorije
     delete[] niska;

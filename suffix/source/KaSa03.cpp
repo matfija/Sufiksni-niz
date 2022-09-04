@@ -35,7 +35,7 @@ static void razvrstavanje(size_t *a, size_t *b, size_t *r, size_t n, size_t K) {
         zbir += br;
     }
 
-    // Soritranje razvrstavanjem
+    // Sortiranje razvrstavanjem
     for (size_t i = 0; i < n; i++) {
         b[broj[r[a[i]]]++] = a[i];
     }
@@ -198,6 +198,6 @@ void KaSa03::napraviSufiksniNiz() {
     // karaktera na 128 mesta odgovara ASCII enkodiranju
     DC3(T, niz, n, 128);
 
-    // Olobađanje memorije
+    // Oslobađanje memorije
     delete[] T;
 }
