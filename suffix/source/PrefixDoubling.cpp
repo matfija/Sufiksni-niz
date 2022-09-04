@@ -29,7 +29,7 @@ void PrefixDoubling::napraviSufiksniNiz() {
     std::copy_n(niska, n, rangovi);
 
     // Prolazak kroz sve duplikacije prefiksa
-    for (size_t k = 1; k < n; k *= 2) {
+    for (size_t k = 1; k < n; k <<= 1) {
         // Klase sufiksa duzine do 2k
         const auto klase = new size_t[n];
         std::copy_n(rangovi, n, klase);

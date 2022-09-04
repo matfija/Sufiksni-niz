@@ -24,8 +24,9 @@ static void razvrstavanje(size_t *a, size_t *b, size_t *r, size_t n, size_t K) {
     const auto broj = new size_t[K + 1]{0};
 
     // Prebrojavanje pojavljivanja
-    for (size_t i = 0; i < n; i++)
+    for (size_t i = 0; i < n; i++) {
         broj[r[a[i]]]++;
+    }
 
     // Sumiranje po prefiksima
     for (size_t i = 0, zbir = 0; i <= K; i++) {
@@ -61,20 +62,14 @@ static void DC3(size_t *T, size_t *SA, size_t n, size_t K) {
     const auto R = new size_t[n02 + 3];
     R[n02] = R[n02 + 1] = R[n02 + 2] = '\0';
 
-    // Sufiksni niz nenultih ostataka
-    const auto SA12 = new size_t[n02 + 3];
-    SA12[n02] = SA12[n02 + 1] = SA12[n02 + 2] = '\0';
-
-    // Kofa za zazvrstavanje nultih ostataka
-    const auto R0 = new size_t[n0];
-
-    // Sufiksni niz nultih ostataka
-    const auto SA0 = new size_t[n0];
-
     // Pripremni korak: upisivanje nenultih ostataka
     for (size_t i = 0, j = 0; i < n + (n0 - n1); i++) {
         if (i % 3) R[j++] = i;
     }
+
+    // Sufiksni niz nenultih ostataka
+    const auto SA12 = new size_t[n02 + 3];
+    SA12[n02] = SA12[n02 + 1] = SA12[n02 + 2] = '\0';
 
     // Prvi korak: sortiranje razvrstavanjem nenultih
     razvrstavanje(R, SA12, T + 2, n02, K);
@@ -109,21 +104,32 @@ static void DC3(size_t *T, size_t *SA, size_t n, size_t K) {
         DC3(R, SA12, n02, ime);
 
         // Pohranjivanje jedinstvenih rangova nakon rekurzije
-        for (size_t i = 0; i < n02; i++)
+        for (size_t i = 0; i < n02; i++) {
             R[SA12[i]] = i + 1;
+        }
     } else {
         // U suprotnom direkno pravljenje niza iz rangova
-        for (size_t i = 0; i < n02; i++)
+        for (size_t i = 0; i < n02; i++) {
             SA12[R[i] - 1] = i;
+        }
     }
+
+    // Kofa za zazvrstavanje nultih ostataka
+    const auto R0 = new size_t[n0];
 
     // Priprema rangova nultih ostataka
     for (size_t i = 0, j = 0; i < n02; i++) {
         if (SA12[i] < n0) R0[j++] = 3 * SA12[i];
     }
 
+    // Sufiksni niz nultih ostataka
+    const auto SA0 = new size_t[n0];
+
     // Drugi korak: sortiranje razvrstavanjem nultih
     razvrstavanje(R0, SA0, T, n0, K);
+
+    // Oslobađanje memorije
+    delete[] R0;
 
     // Treći korak: spajanje nultih i nenultih ostataka
     for (size_t p = 0, t = n0 - n1, k = 0; k < n; k++) {
@@ -167,7 +173,6 @@ static void DC3(size_t *T, size_t *SA, size_t n, size_t K) {
     // Oslobađanje memorije
     delete[] R;
     delete[] SA12;
-    delete[] R0;
     delete[] SA0;
 }
 

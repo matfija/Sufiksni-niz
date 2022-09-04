@@ -113,6 +113,12 @@ void SuffixTest::uporedi(const char *const niska) {
 
     // Jednostavno poređenje dva vektora
     QCOMPARE(ks.getV(), ns.getV());
+
+    // Algoritam SA-IS niske
+    SAIS09 si(niska);
+
+    // Jednostavno poređenje dva vektora
+    QCOMPARE(si.getV(), ns.getV());
 }
 
 // Testiranje naivnog sortiranja
@@ -161,7 +167,19 @@ void SuffixTest::kasa03() {
 }
 
 // Testiranje algoritma SA-IS
-void SuffixTest::sais09() { }
+void SuffixTest::sais09() {
+    // Algoritam SA-IS prazne
+    poznato<SAIS09>(prazna, prazv);
+
+    // Algoritam SA-IS jedinične
+    poznato<SAIS09>(jedinica, jedv);
+
+    // Algoritam SA-IS banane
+    poznato<SAIS09>(banana, banv);
+
+    // Algoritam SA-IS Misisipija
+    poznato<SAIS09>(mississippi, missv);
+}
 
 // Testiranje poređenjem svih algoritama
 void SuffixTest::poredi() {

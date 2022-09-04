@@ -39,7 +39,7 @@ static QLineSeries *tabeliraj(const char *const niska,
     const auto n = strlen(niska);
 
     // Prolazak kroz i = [1, 2, ..., 2^j, ..., n]
-    for (size_t i = 1; i <= n; i *= 2) {
+    for (size_t i = 1; i <= n; i <<= 1) {
         // Merenje vremena na početku rada algoritma
         const auto start = std::chrono::high_resolution_clock::now();
 
