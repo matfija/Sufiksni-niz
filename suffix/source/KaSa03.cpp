@@ -6,20 +6,19 @@ KaSa03::KaSa03(const char *const s)
     : SuffixArray(s) { napraviSufiksniNiz(); }
 
 // Leksikografsko uređenje parova
-static inline bool ur(size_t a1, size_t a2,
-                      size_t b1, size_t b2) {
-    return (a1 < b1 || (a1 == b1 && a2 <= b2));
-}
+#define ur2(a1, a2, b1, b2) \
+    ((a1) < (b1) || ((a1) == (b1) && (a2) <= (b2)))
 
 // Leksikografsko uređenje trojki
-static inline bool ur(size_t a1, size_t a2, size_t a3,
-                      size_t b1, size_t b2, size_t b3) {
-    return (a1 < b1 || (a1 == b1 && ur(a2, a3, b2, b3)));
-}
+#define ur3(a1, a2, a3, b1, b2, b3) \
+    ((a1) < (b1) || ((a1) == (b1) && ur2((a2), (a3), (b2), (b3))))
+
+// Dohvatanje indeksa u koraku spajanja
+#define indeks() SA12[t] < n0 ? SA12[t] * 3 + 1 : (SA12[t] - n0) * 3 + 2
 
 // Sortiranje razvrstavanjem a[0..n-1]
 // u b[0..n-1] prema kofi r reda K
-static void razvrstavanje(size_t *a, size_t *b, size_t *r, size_t n, size_t K) {
+static inline void razvrstavanje(size_t *a, size_t *b, size_t *r, size_t n, size_t K) {
     // Brojački niz za potrebe razvrstavanja
     const auto broj = new size_t[K + 1]{0};
 
@@ -42,11 +41,6 @@ static void razvrstavanje(size_t *a, size_t *b, size_t *r, size_t n, size_t K) {
 
     // Oslobađanje memorije
     delete[] broj;
-}
-
-// Dohvatanje indeksa u koraku spajanja
-static inline size_t indeks(size_t *SA12, size_t t, size_t n0) {
-    return SA12[t] < n0 ? SA12[t] * 3 + 1 : (SA12[t] - n0) * 3 + 2;
 }
 
 // Rekurzivno određivanje sufiksnog niza
@@ -134,12 +128,12 @@ static void DC3(size_t *T, size_t *SA, size_t n, size_t K) {
     // Treći korak: spajanje nultih i nenultih ostataka
     for (size_t p = 0, t = n0 - n1, k = 0; k < n; k++) {
         // Dohvatanje tekućih indeksa
-        const auto i = indeks(SA12, t, n0);
+        const auto i = indeks();
         const auto j = SA0[p];
 
         // Ukoliko je sufiks iz SA12 manji
-        if (SA12[t] < n0 ? ur(T[i], R[SA12[t] + n0], T[j], R[j / 3]) :
-            ur(T[i], T[i + 1], R[SA12[t] - n0 + 1], T[j], T[j + 1], R[j / 3 + n0])) {
+        if (SA12[t] < n0 ? ur2(T[i], R[SA12[t] + n0], T[j], R[j / 3]) :
+            ur3(T[i], T[i + 1], R[SA12[t] - n0 + 1], T[j], T[j + 1], R[j / 3 + n0])) {
 
             // Upisivanje sufiksa u niz
             SA[k] = i;
@@ -164,7 +158,7 @@ static void DC3(size_t *T, size_t *SA, size_t n, size_t K) {
             // Prepisivanje SA12 ako su obrađeni svi iz SA0
             if (p == n0) {
                 for (k++; t < n02; t++, k++) {
-                    SA[k] = indeks(SA12, t, n0);
+                    SA[k] = indeks();
                 }
             }
         }

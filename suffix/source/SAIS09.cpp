@@ -6,37 +6,32 @@ SAIS09::SAIS09(const char *const s)
     : SuffixArray(s) { napraviSufiksniNiz(); }
 
 // Dohvatanje indikatora iz LS niza
-static inline bool dohvati(unsigned char* t, int i) {
-    return t[i / 8] & (1 << (i % 8));
-}
+#define dohvati(i) ((t[(i) / 8] & (1 << ((i) % 8))) ? 1 : 0)
 
 // Postavljanje indikatora u LS niz
-static inline void postavi(unsigned char* t, int i, int indikator) {
-    t[(i) / 8] = indikator ?
-                static_cast<unsigned char>((1 << (i % 8)) | t[i / 8]) :
-                ((~(1 << (i % 8))) & t[i / 8]);
-}
+#define postavi(i, indikator) \
+    t[(i) / 8] = (indikator) ? \
+                 static_cast<unsigned char>((1 << ((i) % 8)) | t[(i) / 8]) : \
+                 ((~(1 << ((i) % 8))) & t[(i) / 8])
 
 // Dohvatanje karaktera ili ranga iz niske
-static inline int rang(const char *const T, int i, int cs) {
-    return cs == sizeof(int) ?
-           (reinterpret_cast<const int *>(T)[i]) :
-           (reinterpret_cast<const char *>(T)[i]);
-}
+#define rang(i) \
+    (cs == sizeof(int) ? \
+    (reinterpret_cast<const int *>(T)[i]) : \
+    (reinterpret_cast<const char *>(T)[i]))
 
 // Provera da li je karakter ili rang LSM
-static inline bool LMS(unsigned char* t, int i) {
-    return (i > 0 && dohvati(t, i) && !dohvati(t, i - 1));
-}
+#define LMS(i) (i > 0 && dohvati(i) && !dohvati(i - 1))
 
 // Pronalaženje početka ili kraja kofe
-static void razvrstavanje(const char *const T, int *r, int n, int K, int cs, bool kraj) {
+static inline void razvrstavanje(const char *const T, int *r,
+                                 int n, int K, int cs, bool kraj) {
     // Pražnjenje svih kofa
     std::fill_n(r, K + 1, 0);
 
     // Prebrojavanje pojavljivanja
     for (int i = 0; i < n; i++)
-        r[rang(T, i, cs)]++;
+        r[rang(i)]++;
 
     // Sumiranje po prefiksima
     for (int i = 0, zbir = 0; i <= K; i++) {
@@ -46,30 +41,30 @@ static void razvrstavanje(const char *const T, int *r, int n, int K, int cs, boo
 }
 
 // Indukovano sortiranje podniza SAl
-static void indukujSAl(unsigned char *t, int *SA, const char *const T,
-                       int *r, int n, int K, int cs, bool kraj) {
+static inline void indukujSAl(unsigned char *t, int *SA, const char *const T,
+                              int *r, int n, int K, int cs, bool kraj) {
     // Pronalaženje početnih pozicija kofa
     razvrstavanje(T, r, n, K, cs, kraj);
 
     // Sortiranje podniza razvrstavanjem
     for (int i = 0; i < n; i++) {
         int j = SA[i] - 1;
-        if (j >= 0 && !dohvati(t, j))
-            SA[r[rang(T, j, cs)]++] = j;
+        if (j >= 0 && !dohvati(j))
+            SA[r[rang(j)]++] = j;
     }
 }
 
 // Indukovano sortiranje podniza SAs
-static void indukujSAs(unsigned char *t, int *SA, const char *const T,
-                       int *r, int n, int K, int cs, bool kraj) {
+static inline void indukujSAs(unsigned char *t, int *SA, const char *const T,
+                              int *r, int n, int K, int cs, bool kraj) {
     // Pronalaženje krajnjih pozicija kofa
     razvrstavanje(T, r, n, K, cs, kraj);
 
     // Sortiranje podniza razvrstavanjem
     for (int i = n - 1; i >= 0; i--) {
         int j = SA[i] - 1;
-        if (j >= 0 && dohvati(t, j))
-            SA[--r[rang(T, j, cs)]] = j;
+        if (j >= 0 && dohvati(j))
+            SA[--r[rang(j)]] = j;
     }
 }
 
@@ -80,13 +75,12 @@ static void SA_IS(const char *const T, int *SA, int n, int K, int cs) {
     const auto t = new unsigned char[static_cast<size_t>(n) / 8 + 1];
 
     // Inicijalizacija LS niza
-    postavi(t, n - 2, 0);
-    postavi(t, n - 1, 1);
+    postavi(n - 2, 0);
+    postavi(n - 1, 1);
 
     // Pripremni korak: popunjavanje LS niza
     for (int i = n - 3; i >= 0; i--) {
-        postavi(t, i, rang(T, i, cs) < rang(T, i + 1, cs) ||
-                      (rang(T, i, cs) == rang(T, i + 1, cs) && dohvati(t ,i + 1)));
+        postavi(i, rang(i) < rang(i + 1) || (rang(i) == rang(i + 1) && dohvati(i + 1)));
     }
 
     // Pronalaženje krajeva kofa
@@ -98,7 +92,7 @@ static void SA_IS(const char *const T, int *SA, int n, int K, int cs) {
 
     // Približno razvrstavanje LMS sufiksa
     for (int i = 1; i < n; i++) {
-        if (LMS(t ,i)) SA[--R[rang(T, i, cs)]] = i;
+        if (LMS(i)) SA[--R[rang(i)]] = i;
     }
 
     // Indukovano sortiranje L i S podnizova
@@ -111,7 +105,7 @@ static void SA_IS(const char *const T, int *SA, int n, int K, int cs) {
     // Postavljanje sortiranih LMS sufiksa na početak niza
     int n1 = 0;
     for (int i = 0; i < n; i++) {
-        if (LMS(t, SA[i])) SA[n1++] = SA[i];
+        if (LMS(SA[i])) SA[n1++] = SA[i];
     }
 
     // Popunjavanje ostatka niza specijalnim vrednostima
@@ -126,11 +120,11 @@ static void SA_IS(const char *const T, int *SA, int n, int K, int cs) {
         // Indikator da li ima razlike
         bool razl = false;
         for (int d = 0; d < n; d++) {
-            if (pret == -1 || rang(T, tren + d, cs) != rang(T, pret + d, cs) ||
-                              dohvati(t, tren + d) != dohvati(t, pret + d)) {
+            if (pret == -1 || rang(tren + d) != rang(pret + d) ||
+                              dohvati(tren + d) != dohvati(pret + d)) {
                 razl = true;
                 break;
-            } else if (d > 0 && (LMS(t, tren + d) || LMS(t, pret + d))) {
+            } else if (d > 0 && (LMS(tren + d) || LMS(pret + d))) {
                 break;
             }
         }
@@ -172,7 +166,7 @@ static void SA_IS(const char *const T, int *SA, int n, int K, int cs) {
 
     // Postavljanje LMS sufiksa na pravo mesto
     for (int i = 1, j = 0; i < n; i++) {
-        if (LMS(t, i)) s1[j++] = i;
+        if (LMS(i)) s1[j++] = i;
     }
 
     // Postavljanje ostalih već izračunatih rangova
@@ -187,7 +181,7 @@ static void SA_IS(const char *const T, int *SA, int n, int K, int cs) {
     for (int i = n1 - 1; i >= 0; i--) {
         int j = SA[i];
         SA[i] = -1;
-        SA[--R[rang(T, j, cs)]] = j;
+        SA[--R[rang(j)]] = j;
     }
 
     // Indukovano sortiranje L i S podnizova
