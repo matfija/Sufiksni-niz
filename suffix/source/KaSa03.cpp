@@ -14,7 +14,7 @@ KaSa03::KaSa03(const char *const s)
     ((a1) < (b1) || ((a1) == (b1) && ur2((a2), (a3), (b2), (b3))))
 
 // Dohvatanje indeksa u koraku spajanja
-#define indeks() SA12[t] < n0 ? SA12[t] * 3 + 1 : (SA12[t] - n0) * 3 + 2
+#define indeks() (SA12[t] < n0 ? SA12[t] * 3 + 1 : (SA12[t] - n0) * 3 + 2)
 
 // Sortiranje razvrstavanjem a[0..n-1]
 // u b[0..n-1] prema kofi r reda K
