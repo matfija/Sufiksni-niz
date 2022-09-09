@@ -8,8 +8,9 @@
 class PrefixDoubling : public SuffixArray {
 public:
     // Konstruktor niza na osnovu niske
-    PrefixDoubling(const char *const);
+    PrefixDoubling(const char *const, size_t = 1);
 
+private:
     // Virtuelna funkcija za konstrukciju niza
     virtual void napraviSufiksniNiz() final;
 };

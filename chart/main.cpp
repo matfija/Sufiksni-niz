@@ -38,19 +38,31 @@ static QLineSeries *tabeliraj(const char *const niska,
     // Određivanje dužine niske
     const auto n = strlen(niska);
 
-    // Prolazak kroz i = [2^j | j <- [1..n]]
+    // Ispis imena algoritma
+    std::cout << algoritam << std::endl;
+
+    // Prolazak kroz i = [1, ..., 2^j, ..., n]
     for (size_t i = 1; i <= n; i <<= 1) {
-        // Merenje vremena na početku rada algoritma
-        const auto start = std::chrono::high_resolution_clock::now();
 
         // Konstrukcija sufiksnog niza nad i karaktera
-        SuffArr sa(niska + n - i);
+        SuffArr sa(niska + n - i, 100);
 
-        // Merenje vremena na kraju rada algoritma
-        const auto end = std::chrono::high_resolution_clock::now();
+        // Ispis izračunatih statistika vremena
+        std::cout << i << ", " <<
+                     std::log2(i) << ", " <<
+                     sa.getMean() << ", " <<
+                     std::log2(sa.getMean()) << ", " <<
+                     sa.getStd() << ", " <<
+                     std::log2(1 + 1.*sa.getStd()/sa.getMean()) <<
+                     std::endl;
+
+        // Ispis niza vremena u poslednjoj iteraciji
+        if (i << 1 > n) {
+            std::cout << ilustrujNiz(sa.getVreme()) << std::endl;
+        }
 
         // Dodavanje rezultata na vremensku seriju
-        series->append(std::log2(i), std::log2((end - start).count()));
+        series->append(std::log2(i), std::log2(sa.getMean()));
     }
 
     // Postavljanje imena serije
@@ -69,7 +81,7 @@ int main(int argc, char *argv[]) {
     const auto grafikon = new QChart;
 
     // Generisanje pseudoslučajne niske
-    const auto niska = randnis(100'000, 'a', 'z');
+    const auto niska = randnis(132'000, 'a', 'a');
 
     // Dodavanje naivnog sortiranja
     grafikon->addSeries(tabeliraj<NaiveSort>(niska, "NaiveSort"));

@@ -39,6 +39,18 @@ protected:
     // Izračunati sufiksni niz indeksa
     size_t *const niz;
 
+    // Vektor vremena izvršavanja
+    std::vector<size_t> vreme;
+
+    // Srednja vrednost vremena
+    size_t mean;
+
+    // Odstupanje vremena
+    size_t std;
+
+    // Funkcija za statistike vremena
+    void statistike();
+
 public:
     // Funkcija za dohvatanje dužine
     size_t getN() const;
@@ -57,10 +69,25 @@ public:
 
     // Funkcija za dohvatanje indeksa
     size_t getNiz(size_t) const;
+
+    // Funkcija za dohvatanje vremena
+    const std::vector<size_t> &getVreme() const;
+
+    // Funkcija za dohvatanje sredine
+    size_t getMean() const;
+
+    // Funkcija za dohvatanje odstupanja
+    size_t getStd() const;
 };
 
+// Funkcija za ilustrovanje niza
+const std::string ilustrujNiz(const size_t *const, size_t);
+
+// Funkcija za ilustrovanje vektora
+const std::string ilustrujNiz(const std::vector<size_t>);
+
 // Funkcija za ispis niske i niza
-std::ostream& operator<<(std::ostream&, const SuffixArray&);
+std::ostream &operator<<(std::ostream &, const SuffixArray &);
 
 // Funkcija za generisanje pseudoslučajne niske
 const char *randnis(size_t, char, char);
