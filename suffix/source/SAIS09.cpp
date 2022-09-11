@@ -61,8 +61,8 @@ static inline void razvrstavanje(const char *const T, int *r,
     }
 }
 
-// Indukovano sortiranje podniza SAl
-static inline void indukujSAl(unsigned char *t, int *SA, const char *const T,
+// Indukovano sortiranje podniza L
+static inline void indukujL(unsigned char *t, int *SA, const char *const T,
                               int *r, int n, int K, int cs, bool kraj) {
     // Pronalaženje početnih pozicija kofa
     razvrstavanje(T, r, n, K, cs, kraj);
@@ -75,8 +75,8 @@ static inline void indukujSAl(unsigned char *t, int *SA, const char *const T,
     }
 }
 
-// Indukovano sortiranje podniza SAs
-static inline void indukujSAs(unsigned char *t, int *SA, const char *const T,
+// Indukovano sortiranje podniza S
+static inline void indukujS(unsigned char *t, int *SA, const char *const T,
                               int *r, int n, int K, int cs, bool kraj) {
     // Pronalaženje krajnjih pozicija kofa
     razvrstavanje(T, r, n, K, cs, kraj);
@@ -117,8 +117,8 @@ static void SA_IS(const char *const T, int *SA, int n, int K, int cs) {
     }
 
     // Indukovano sortiranje L i S podnizova
-    indukujSAl(t, SA, T, R, n, K, cs, false);
-    indukujSAs(t, SA, T, R, n, K, cs, true);
+    indukujL(t, SA, T, R, n, K, cs, false);
+    indukujS(t, SA, T, R, n, K, cs, true);
 
     // Oslobađanje memorije
     delete[] R;
@@ -206,8 +206,8 @@ static void SA_IS(const char *const T, int *SA, int n, int K, int cs) {
     }
 
     // Indukovano sortiranje L i S podnizova
-    indukujSAl(t, SA, T, R, n, K, cs, false);
-    indukujSAs(t, SA, T, R, n, K, cs, true);
+    indukujL(t, SA, T, R, n, K, cs, false);
+    indukujS(t, SA, T, R, n, K, cs, true);
 
     // Oslobađanje memorije
     delete[] t;
